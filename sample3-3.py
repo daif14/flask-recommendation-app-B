@@ -24,7 +24,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)  # セッション用のシークレットキーを設定
 
 # 使用する特徴量
-FEATURES = ['key', 'energy', 'mode', 'acousticness', 'danceability', 'valence', 'instrumentalness', 'speechiness', 'loudness', 'tempo']
+FEATURES = ['mode', 'acousticness', 'danceability', 'valence', 'instrumentalness', 'speechiness', 'loudness', 'tempo']
 
 # ジャンルごとのCSVファイルの読み込み関数
 def load_genre_data(genre):
