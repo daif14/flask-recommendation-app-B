@@ -9,7 +9,7 @@ body {
 
 h1 {
     text-align: center;
-    color: #4CAF50; /* メインタイトルの文字色を緑に */
+    color: #4CAF50;
     margin-top: 20px;
 }
 
@@ -22,28 +22,42 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 推薦曲取得ボタンのスタイル */
-button#getRecommendations {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #4CAF50; /* ボタン背景色 */
-    color: #fff; /* ボタン文字色 */
-    border: none;
-    border-radius: 4px;
-    font-size: 18px;
-    cursor: pointer;
-    text-align: center;
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-button#getRecommendations:hover {
-    background-color: #45a049; /* ボタンのホバー時の背景色 */
+label, select, button {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 50%;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
 }
 
 h2 {
-    color: #333; /* 推薦結果タイトルの文字色 */
-    margin-top: 20px;
+    color: #333;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 ul {
@@ -52,28 +66,41 @@ ul {
 }
 
 li {
-    background-color: #f9f9f9; /* 推薦曲アイテムの背景色 */
-    margin: 5px 0;
-    padding: 10px;
+    background-color: #f9f9f9;
+    margin: 10px 0;
+    padding: 15px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li strong {
+    font-size: 16px;
+    margin-right: 10px;
 }
 
 li a {
-    color: #4CAF50; /* リンク文字色を緑に */
-    text-decoration: none;
+    color: #000;
+    text-decoration: underline; /* 下線を追加 */
+    font-weight: bold;
 }
+
 
 li a:hover {
-    text-decoration: underline; /* リンクホバー時に下線 */
+    text-decoration: underline;
 }
 
+
+/* エラーメッセージのスタイル */
 #error-message {
-    color: red; /* エラーメッセージの文字色 */
+    color: red;
     font-size: 16px;
     margin-top: 10px;
 }
 
+/* 非表示用のクラス */
 .hidden {
     display: none;
 }
