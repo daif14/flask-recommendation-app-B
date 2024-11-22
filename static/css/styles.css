@@ -82,14 +82,16 @@ li strong {
 }
 
 li a {
-    color: #4CAF50;
-    text-decoration: none;
+    color: #000;
+    text-decoration: underline; /* 下線を追加 */
     font-weight: bold;
 }
+
 
 li a:hover {
     text-decoration: underline;
 }
+
 
 /* エラーメッセージのスタイル */
 #error-message {
