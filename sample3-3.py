@@ -193,6 +193,10 @@ def recommend():
     # ユーザが指定したジャンルを取得
     genre = request.args.get('genre')
 
+    # ジャンルが指定されていない場合、エラーメッセージを返す
+    if not genre or genre.strip() == "":
+        return jsonify({"error": "ジャンルを選択してください"}), 400
+
     # 前のジャンル選択時の推薦結果をリセット
     if 'last_genre' in session and session['last_genre'] != genre:
         session.pop('recommendations', None)  # 推薦結果をリセット
