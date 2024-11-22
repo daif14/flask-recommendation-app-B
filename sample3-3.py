@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, session, redirect, url_for
 import pandas as pd
+import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler
 import spotipy
@@ -24,7 +25,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)  # セッション用のシークレットキーを設定
 
 # 使用する特徴量
-FEATURES = ['mode', 'acousticness', 'danceability', 'valence', 'instrumentalness', 'speechiness', 'loudness', 'tempo']
+FEATURES = ['key', 'mode', 'acousticness', 'danceability', 'valence', 'instrumentalness', 'speechiness', 'loudness', 'tempo']
 
 # ジャンルごとのCSVファイルの読み込み関数
 def load_genre_data(genre):
@@ -108,7 +109,7 @@ def get_user_recent_tracks():
                 'artist_name': item['track']['artists'][0]['name'],
                 'id': item['track']['id'],
                 'key': feature['key'],
-                'energy': feature['energy'],
+                'energy': np.random.random(),  # energyにランダムな値を割り当て
                 'mode': feature['mode'],
                 'acousticness': feature['acousticness'],
                 'danceability': feature['danceability'],
@@ -154,8 +155,8 @@ def recommend_songs_for_user(user_scaled_features, genre_data, genre, excluded_i
             recommendations.append(recommendation)
             excluded_ids.add(track_id)
         
-        # 推薦する楽曲は最大5件とする
-        if len(recommendations) >= 6:
+        # 推薦する楽曲は最大3件とする
+        if len(recommendations) >= 3:
             break
     
     return pd.DataFrame(recommendations)
