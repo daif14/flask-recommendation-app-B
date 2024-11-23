@@ -54,18 +54,9 @@ button:hover {
 }
 
 h2 {
-    color: #333; /* 推薦結果タイトルの文字色 */
-    margin-top: 20px;
+    color: #333;
 }
 
-/* 「こちらもおすすめ」の見出し */
-#otherRecommendationsTitle {
-    color: #666; /* 少し控えめな文字色 */
-    font-size: 20px; /* 推薦結果と区別するためのサイズ */
-    margin-top: 20px;
-}
-
-/* 推薦リストのスタイル */
 ul {
     list-style: none;
     padding: 0;
