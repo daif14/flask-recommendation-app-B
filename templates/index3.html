@@ -7,7 +7,105 @@
     <!-- FlaskでのCSSファイルのリンク -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body>
+<body><!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Music Recommendation</title>
+        <!-- FlaskでのCSSファイルのリンク -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    </head>
+    <body>
+        <div id="container">
+            <h1>楽曲レコメンド</h1>
+    
+            <!-- ジャンル選択フォーム -->
+            <form id="genreForm">
+                <label for="genre">楽曲のジャンルを選択してください:</label>
+                <select id="genre" name="genre">
+                    <option value="">--選択してください--</option>
+                    <option value="pop">ポップ</option>
+                    <option value="rock">ロック</option>
+                    <option value="hip-hop">ヒップホップ</option>
+                    <option value="jazz">ジャズ</option>
+                    <option value="edm">EDM</option>
+                </select>
+                <button type="button" id="submit-button">楽曲を推薦</button>
+                <!-- エラーメッセージを表示する要素 -->
+                <p id="error-message" class="hidden">ジャンルを選択してください。</p>
+            </form>
+            <div id="recommendationSection" style="display: none;">
+                <h2>推薦結果</h2>
+                <ul id="userRecommendations"></ul>
+                <h2 id="otherRecommendationsTitle" style="display: none;">こちらもおすすめ</h2>
+                <ul id="otherRecommendations"></ul>
+            </div>
+        </div>
+    
+        <script>
+            // ボタンのクリックイベント
+            document.getElementById('submit-button').addEventListener('click', function () {
+                const genre = document.getElementById('genre').value;
+                const errorMessage = document.getElementById('error-message');
+                const userRecommendationsList = document.getElementById('userRecommendations');
+                const otherRecommendationsList = document.getElementById('otherRecommendations');
+                const recommendationSection = document.getElementById('recommendationSection');
+                const otherRecommendationsTitle = document.getElementById('otherRecommendationsTitle');
+    
+                // 初期化
+                errorMessage.classList.add('hidden');
+                recommendationSection.style.display = 'none';
+                userRecommendationsList.innerHTML = '';
+                otherRecommendationsList.innerHTML = '';
+                otherRecommendationsTitle.style.display = 'none';
+    
+                // ジャンル未選択時のエラーメッセージ表示
+                if (!genre) {
+                    errorMessage.classList.remove('hidden');
+                    return;
+                }
+    
+                // 推薦結果を取得
+                fetch(`/recommend?genre=${encodeURIComponent(genre)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            errorMessage.textContent = data.error;
+                            errorMessage.classList.remove('hidden');
+                        } else {
+                            // 選択したジャンルの曲
+                            const userRecommendations = data.filter(song => song.source_genre === genre);
+                            userRecommendations.forEach(song => {
+                                const listItem = document.createElement('li');
+                                listItem.innerHTML = `<strong>${song.track_name}</strong> by ${song.artist_name} - <a href="${song.track_url}" target="_blank">Listen</a>`;
+                                userRecommendationsList.appendChild(listItem);
+                            });
+    
+                            // 他ジャンルの曲（最後の4曲）
+                            const otherRecommendations = data.filter(song => song.source_genre !== genre).slice(-4);
+                            if (otherRecommendations.length > 0) {
+                                otherRecommendationsTitle.style.display = 'block';
+                                otherRecommendations.forEach(song => {
+                                    const listItem = document.createElement('li');
+                                    listItem.innerHTML = `<strong>${song.track_name}</strong> by ${song.artist_name} - <a href="${song.track_url}" target="_blank">Listen</a>`;
+                                    otherRecommendationsList.appendChild(listItem);
+                                });
+                            }
+    
+                            recommendationSection.style.display = 'block';
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error:', err);
+                        errorMessage.textContent = "エラーが発生しました。";
+                        errorMessage.classList.remove('hidden');
+                    });
+            });
+        </script>
+    </body>
+    </html>
+    
     <div id="container">
         <h1>楽曲レコメンド</h1>
 
