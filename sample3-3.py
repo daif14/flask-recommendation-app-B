@@ -141,7 +141,7 @@ def recommend_songs_for_user(user_scaled_features, genre_data, genre, excluded_i
     # コサイン類似度の計算 (複数曲の平均特徴量を使用)
     cosine_sim = cosine_similarity(user_scaled_features.mean(axis=0).values.reshape(1, -1), genre_features)
     
-    # 類似度の高い楽曲を上位5件取得
+    # 類似度の高い楽曲を上位取得
     sim_scores = cosine_sim[0]  # 平均値を使用して全楽曲との類似度を計算
     top_indices = sim_scores.argsort()[::-1]  # 類似度の高い順にソート
     
